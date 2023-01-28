@@ -1,14 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Navbar from './Components/Utilities_Components/Navbar';
+import Login from './Views/Login';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Altru funds</h1>
-      <p>Getting started</p>
-      <p>Premium web based crowd funding platform</p>
-      <a href='/' target='_self'>Home | Admin </a>
-    </div>
+    <>
+    <Navbar />
+    <Login />
+    </>
   );
 }
 

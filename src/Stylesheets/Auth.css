@@ -1,0 +1,8 @@
+.auth-background{
+  background: url(../Asset/Images/auth-background.png);
+  max-height:100vh;
+}
+
+.login-text{
+  color: #f36523;
+}
