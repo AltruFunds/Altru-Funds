@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import '../Stylesheets/Auth.css'
@@ -43,10 +43,10 @@ const Login = () => {
         <Formik 
           initialValues={{email: '', password: ''}}
           validationSchema={Yup.object({})}
-          onSubmit={()=> {}}
+          onSubmit={(values)=> {console.log(values)}}
         >
           {formik => (
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} action='submit'>
               <Stack spacing={4}>
                 <FormControl isRequired>
                   <FormLabel m={0} p={0}>Email address</FormLabel>
@@ -66,7 +66,7 @@ const Login = () => {
                 </FormControl>
 
 
-                <Button colorScheme='orange'>Log in</Button>
+                <Button colorScheme='orange' type='submit'>Log in</Button>
                 <Text align='center'>Or</Text>
                 <Button>Log in with Google</Button>
                 <Button>Log in with Facebook</Button>
