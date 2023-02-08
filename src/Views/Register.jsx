@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import '../Stylesheets/Auth.css'
-import { 
-  Box, 
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import "../Stylesheets/Auth.css";
+import {
+  Box,
   Heading,
-  Input, 
-  InputGroup, 
-  InputRightElement, 
-  Stack, 
+  Input,
+  InputGroup,
+  InputRightElement,
+  Stack,
   FormControl,
   FormLabel,
   Button,
@@ -17,82 +17,184 @@ import {
   FormHelperText,
   Text,
   Container,
-  } from "@chakra-ui/react"
+} from "@chakra-ui/react";
 
 const Register = () => {
-
   const containerStyle = {
-    boxShadow : 'md',
-    rounded : 'md',
-    maxWidth : '316px',
-    my : '2%',
-    padding : '1rem'
-  }
+    boxShadow: "md",
+    rounded: "md",
+    maxWidth: "316px",
+    my: "2%",
+    padding: "1rem",
+  };
 
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
 
   return (
     <>
-    <section className='auth-background'>
-     <Container as='section' sx={containerStyle}>
-      <Heading as='h4' size='md' mb={2} className='login-text'>Register</Heading> 
-      <Text fontSize='xs' color='gray' mb={4}>Hey, enter your details to sign in to your account </Text>
+      <section className="auth-background">
+        <Container as="section" sx={containerStyle}>
+          <Heading as="h4" size="md" mb={2} className="login-text">
+            Register
+          </Heading>
+          <Text fontSize="xs" color="gray" mb={4}>
+            Hey, enter your details to sign in to your account{" "}
+          </Text>
 
-      <Formik 
-        initialValues={{email: '', password: ''}}
-        validationSchema={Yup.object({})}
-        onSubmit={()=> {}}
-      >
-        {formik => (
-          <form onSubmit={formik.handleSubmit}>
-            <Stack spacing={4}>
-              <FormControl isRequired>
-                <FormLabel m={0} p={0}>First Name</FormLabel>
-                <Input placeholder='Enter your email'/>
-                </FormControl>
+          <Formik
+            initialValues={{
+              firstName: "",
+              lastName: "",
+              email: "",
+              phoneNumber: "",
+              password: "",
+            }}
+            validationSchema={Yup.object({
+              firstName: Yup.string()
+                .min(2, "name should be at least 2 characters or more")
+                .required("first name should not be empty"),
+              lastName: Yup.string()
+                .min(2, "name should be at least 2 characters or more")
+                .required("last name should not be empty"),
+              email: Yup.string()
+                .email("Invalid email address")
+                .required("email should not be empty"),
+              phoneNumber: Yup.string()
+                .matches(
+                  /^[0]+[7-9]+[0-1]+[0-9]{8}$/,
+                  "Phone number is not valid"
+                )
+                .required("phone number should not be empty"),
+              password: Yup.string()
+                .required("No password provided.")
+                .matches(
+                  /^(?=(.*[a-z]))(?=(.*[A-Z]))(?=(.*[0-9]))(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,24}$/,
+                  "Password should contain minimum of 8 Alphanumeric characters and a symbol (~!@#$%^&*()+=)."
+                ),
+            })}
+            onSubmit={(values) => {console.log(values)}}
+          >
+            {(formik) => (
+              <form onSubmit={formik.handleSubmit}>
+                <Stack spacing={4}>
+                  <FormControl>
+                    <FormLabel m={0} p={0}>
+                      First Name
+                    </FormLabel>
+                    <Input
+                      size='sm'
+                      variant='filled'
+                      placeholder="Enter your first name"
+                      type="text"
+                      id="firstName"
+                      onChange={formik.handleChange}
+                      value={formik.values.firstName}
+                    />
 
-              <FormControl isRequired>
-                <FormLabel m={0} p={0}>Last Name</FormLabel>
-                <Input placeholder='Enter your email'/>
-                </FormControl>
+                    {formik.touched.firstName && formik.errors.firstName ? (
+                      < Text color='red' fontSize='sm'>{formik.errors.firstName}</ Text>
+                    ) : null}
+                  </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel m={0} p={0}>Email address</FormLabel>
-                <Input placeholder='Enter your email'/>
-                </FormControl>
+                  <FormControl>
+                    <FormLabel m={0} p={0}>
+                      Last Name
+                    </FormLabel>
+                    <Input
+                      size='sm'
+                      variant='filled'
+                      placeholder="Enter your last name"
+                      type="text"
+                      id="lastName"
+                      onChange={formik.handleChange}
+                      value={formik.values.lastName}
+                    />
+                    {formik.touched.lastName && formik.errors.lastName ? (
+                      < Text color='red' fontSize='sm'>{formik.errors.lastName}</ Text>
+                    ) : null}
+                  </FormControl>
 
-              <FormControl isRequired>
-                <FormLabel m={0} p={0}>Phone Number</FormLabel>
-                <Input placeholder='Enter your email'/>
-                </FormControl>
+                  <FormControl>
+                    <FormLabel m={0} p={0}>
+                      Email address
+                    </FormLabel>
+                    <Input
+                      size='sm'
+                      variant='filled'
+                      placeholder="Enter your email"
+                      type="email"
+                      id="email"
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                    />
+                    {formik.touched.email && formik.errors.email ? (
+                      < Text color='red' fontSize='sm'>{formik.errors.email}</ Text>
+                    ) : null}
+                  </FormControl>
 
-               <FormControl isRequired>
-                <FormLabel m={0} p={0}>Password</FormLabel>
-                <InputGroup>
-                <Input placeholder='Enter your password' type={show ? 'text' : 'password'}/>
-                  <InputRightElement width='4.5rem'>
-                    <Button h='1.75rem' size='sm' onClick={handleClick} background='none'>
-                      {show ? 'Hide' : 'Show'}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
+                  <FormControl>
+                    <FormLabel m={0} p={0}>
+                      Phone Number
+                    </FormLabel>
+                    <Input
+                      size='sm'
+                      variant='filled'
+                      placeholder="Enter your Phone number"
+                      id="phoneNumber"
+                      onChange={formik.handleChange}
+                      value={formik.values.phoneNumber}
+                    />
+                    {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+                      < Text color='red' fontSize='sm'>{formik.errors.phoneNumber}</ Text>
+                    ) : null}
+                  </FormControl>
 
+                  <FormControl>
+                    <FormLabel m={0} p={0}>
+                      Password
+                    </FormLabel>
+                    <InputGroup >
+                      <Input
+                        size='sm'
+                        variant='filled'
+                        placeholder="Enter your password"
+                        type={show ? "text" : "password"}
+                        id="password"
+                        onChange={formik.handleChange}
+                        value={formik.values.password}
+                      />
+                      <InputRightElement width="4.5rem">
+                        <Button
+                          size="xs"
+                          onClick={handleClick}
+                          background="none"
+                          marginTop={-2}
+                        >
+                          {show ? "Hide" : "Show"}
+                        </Button>
+                      </InputRightElement>
+                    </InputGroup>
+                    {formik.touched.password && formik.errors.password ? (
+                      < Text color='red' fontSize='sm'>{formik.errors.password}</ Text>
+                    ) : null}
+                  </FormControl>
 
-              <Button colorScheme='orange'>Register</Button>
+                  <Button colorScheme="orange" type="submit">
+                    Register
+                  </Button>
 
-             <Text align='center'>Don't have an account ? <Link to='/login'>Login</Link></Text> 
-            </Stack>
+                  <Text align="center">
+                    Don't have an account ? <Link to="/login">Login</Link>
+                  </Text>
+                </Stack>
+              </form>
+            )}
+          </Formik>
+        </Container>
+      </section>
+    </>
+  );
+};
 
-            
-          </form>
-        )}
-      </Formik>
-     </Container>
-    </section>
- </>
-  )
-}
-
-export default Register
+export default Register;
