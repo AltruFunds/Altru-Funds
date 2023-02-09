@@ -13,8 +13,6 @@ import {
   FormControl,
   FormLabel,
   Button,
-  FormErrorMessage,
-  FormHelperText,
   Text,
   Container,
 } from "@chakra-ui/react";
@@ -30,6 +28,8 @@ const Register = () => {
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
+  const [loadingState, setLoadingState] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -73,7 +73,12 @@ const Register = () => {
                   "Password should contain minimum of 8 Alphanumeric characters and a symbol (~!@#$%^&*()+=)."
                 ),
             })}
-            onSubmit={(values) => {console.log(values)}}
+            onSubmit={(values) => {
+              setLoadingState(true);
+              setTimeout(() => {
+                setLoadingState(false), console.log(values), navigate("/");
+              }, 4000);
+            }}
           >
             {(formik) => (
               <form onSubmit={formik.handleSubmit}>
@@ -83,8 +88,7 @@ const Register = () => {
                       First Name
                     </FormLabel>
                     <Input
-                      size='sm'
-                      variant='filled'
+                      variant="filled"
                       placeholder="Enter your first name"
                       type="text"
                       id="firstName"
@@ -93,7 +97,9 @@ const Register = () => {
                     />
 
                     {formik.touched.firstName && formik.errors.firstName ? (
-                      < Text color='red' fontSize='sm'>{formik.errors.firstName}</ Text>
+                      <Text color="red" fontSize="sm">
+                        {formik.errors.firstName}
+                      </Text>
                     ) : null}
                   </FormControl>
 
@@ -102,8 +108,7 @@ const Register = () => {
                       Last Name
                     </FormLabel>
                     <Input
-                      size='sm'
-                      variant='filled'
+                      variant="filled"
                       placeholder="Enter your last name"
                       type="text"
                       id="lastName"
@@ -111,7 +116,9 @@ const Register = () => {
                       value={formik.values.lastName}
                     />
                     {formik.touched.lastName && formik.errors.lastName ? (
-                      < Text color='red' fontSize='sm'>{formik.errors.lastName}</ Text>
+                      <Text color="red" fontSize="sm">
+                        {formik.errors.lastName}
+                      </Text>
                     ) : null}
                   </FormControl>
 
@@ -120,8 +127,7 @@ const Register = () => {
                       Email address
                     </FormLabel>
                     <Input
-                      size='sm'
-                      variant='filled'
+                      variant="filled"
                       placeholder="Enter your email"
                       type="email"
                       id="email"
@@ -129,7 +135,9 @@ const Register = () => {
                       value={formik.values.email}
                     />
                     {formik.touched.email && formik.errors.email ? (
-                      < Text color='red' fontSize='sm'>{formik.errors.email}</ Text>
+                      <Text color="red" fontSize="sm">
+                        {formik.errors.email}
+                      </Text>
                     ) : null}
                   </FormControl>
 
@@ -138,15 +146,16 @@ const Register = () => {
                       Phone Number
                     </FormLabel>
                     <Input
-                      size='sm'
-                      variant='filled'
+                      variant="filled"
                       placeholder="Enter your Phone number"
                       id="phoneNumber"
                       onChange={formik.handleChange}
                       value={formik.values.phoneNumber}
                     />
                     {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-                      < Text color='red' fontSize='sm'>{formik.errors.phoneNumber}</ Text>
+                      <Text color="red" fontSize="sm">
+                        {formik.errors.phoneNumber}
+                      </Text>
                     ) : null}
                   </FormControl>
 
@@ -154,10 +163,9 @@ const Register = () => {
                     <FormLabel m={0} p={0}>
                       Password
                     </FormLabel>
-                    <InputGroup >
+                    <InputGroup>
                       <Input
-                        size='sm'
-                        variant='filled'
+                        variant="filled"
                         placeholder="Enter your password"
                         type={show ? "text" : "password"}
                         id="password"
@@ -166,21 +174,28 @@ const Register = () => {
                       />
                       <InputRightElement width="4.5rem">
                         <Button
-                          size="xs"
+                          
                           onClick={handleClick}
                           background="none"
-                          marginTop={-2}
+                          
                         >
                           {show ? "Hide" : "Show"}
                         </Button>
                       </InputRightElement>
                     </InputGroup>
                     {formik.touched.password && formik.errors.password ? (
-                      < Text color='red' fontSize='sm'>{formik.errors.password}</ Text>
+                      <Text color="red" fontSize="sm">
+                        {formik.errors.password}
+                      </Text>
                     ) : null}
                   </FormControl>
 
-                  <Button colorScheme="orange" type="submit">
+                  <Button
+                    isLoading={loadingState}
+                    loadingText="Submitting"
+                    colorScheme="orange"
+                    type="submit"
+                  >
                     Register
                   </Button>
 
