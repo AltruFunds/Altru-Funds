@@ -35,6 +35,7 @@ const NavMenu = () => {
       position="sticky"
       top="0"
       backgroundColor="white"
+      zIndex={1000}
       
     >
       <Box>

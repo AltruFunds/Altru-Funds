@@ -22,7 +22,7 @@ const Navbar = () => {
   return (
     <>
     { windowSize.innerWidth <= 880 ? <NavMenu /> :
-    <Flex as='nav' py='0.5rem' px='4rem' alignItems='center' boxShadow='md' position='sticky' top='0' backgroundColor='white' >
+    <Flex as='nav' py='0.5rem' px='4rem' alignItems='center' boxShadow='md' position='sticky' top='0' backgroundColor='white' zIndex={1000}>
       <Box>
         <Image src={Logo}/>
       </Box>

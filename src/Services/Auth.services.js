@@ -24,3 +24,13 @@ const login = (email, password) => {
                 }
               })
 }
+
+const logout = () => {
+  localStorage.removeItem('user')
+}
+
+
+const authService = {register, login, logout };
+
+export default authService
+
